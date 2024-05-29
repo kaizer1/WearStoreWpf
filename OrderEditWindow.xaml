@@ -1,0 +1,36 @@
+﻿<Window x:Class="WearStoreWpf.OrderEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WearStoreWpf"
+        mc:Ignorable="d"
+        Title="Редактирование заказа" Height="450" Width="800" Background="#fbf4e2" BorderBrush="#546c4a" BorderThickness="2">
+  
+    <Grid>
+        <StackPanel Margin="10">
+            <Label Content="Пользователь:"/>
+            <ComboBox x:Name="UserComboBox" Style="{StaticResource CustomComboBoxStyle}" Margin="0 0 0 10" Background="#FF5D5D5D" OpacityMask="#FFE41D1D"/>
+            <Label Content="Статус:"/>
+            <ComboBox x:Name="StatusComboBox" Style="{StaticResource CustomComboBoxStyle}" Margin="0 0 0 10"/>
+            <Label Content="Сумма заказа:"/>
+            <TextBox x:Name="TotalAmountTextBox" IsEnabled="False" Style="{StaticResource CustomTextBoxStyle}" Margin="0 0 0 10"/>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="ProductComboBox" Width="300" HorizontalAlignment="Left" Margin="0 0 10 0" SelectionChanged="ProductComboBox_SelectionChanged" Style="{StaticResource CustomComboBoxStyle}"/>
+                <ComboBox x:Name="SizeComboBox" Width="70" HorizontalAlignment="Left" Margin="0 0 10 0" Style="{StaticResource CustomComboBoxStyle}"/>
+                <TextBox x:Name="CountTextBox" Width="90" Margin="0 0 10 0" Style="{StaticResource CustomTextBoxStyle}"/>
+                <Button Click="AddProduct" Content="Добавить товар в заказ" Style="{StaticResource CustomButtonStyle}" />
+            </StackPanel>
+            <DataGrid x:Name="OrderItemsDataGrid" ItemsSource = "{Binding orderItems}"  IsReadOnly="True" AutoGenerateColumns="False" Style="{StaticResource CustomDataGridStyle}"  HeadersVisibility="Column" Margin="0 10 0 0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Наименование" Width="*" Binding="{Binding ProductName}"/>
+                    <DataGridTextColumn Header="Количество" Width="*" Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="Размер" Width="*" Binding="{Binding Size}"/>
+                    <DataGridTextColumn Header="Общая цена" Width="*" Binding="{Binding Price}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Click="SaveOrderd" Content="Сохранить " Style="{StaticResource CustomButtonStyle}" />
+
+        </StackPanel>
+    </Grid>
+</Window>

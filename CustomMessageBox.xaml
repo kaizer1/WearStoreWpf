@@ -1,0 +1,23 @@
+﻿<Window x:Class="WearStoreWpf.CustomMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        WindowStartupLocation="CenterScreen"
+        Title="CustomMessageBox" Height="120" Width="380" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" VerticalAlignment="Center" HorizontalAlignment="Center">
+    
+    <Grid>
+        <!-- Ваш пользовательский дизайн для MessageBox -->
+        <Border Background="#fbf4e2" BorderBrush="#546c4a" BorderThickness="2" CornerRadius="10" Margin="0">
+            <StackPanel Margin="10">
+                <TextBlock Text="{Binding Message}" Style="{StaticResource CustomTextBlockStyle}" TextWrapping="Wrap" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <!-- Показываем кнопку "Закрыть", если сообщение не требует ответа -->
+                     <!-- Показываем кнопки "Да" и "Нет", если сообщение требует ответа -->
+                    <Button x:Name="YesBtn" Content="Да" Width="80" Style="{StaticResource CustomButtonStyle}" Margin="2" Click="YesButton_Click"  />
+                    <Button x:Name="NoBtn"  Content="Нет" Width="80" Style="{StaticResource CustomButtonStyle}" Margin="2" Click="NoButton_Click"  />
+                    <Button x:Name="CloseBtn"  Content="Закрыть"  Width="80" Style="{StaticResource CustomButtonStyle}" Margin="2" Click="CloseButton_Click" />
+
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

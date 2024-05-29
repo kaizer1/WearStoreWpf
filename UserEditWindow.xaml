@@ -1,0 +1,83 @@
+﻿<Window x:Class="WearStoreWpf.UserEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WearStoreWpf"
+        mc:Ignorable="d"
+        Title="UserEditWindow" Height="450" Width="800"    Background="#fbf4e2" BorderBrush="#546c4a" BorderThickness="2">
+    <Window.Resources>
+        
+
+        <Style x:Key="CustomTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#fbf4e2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#546c4a"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="5">
+                            <!-- Здесь устанавливаем скругление углов -->
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#fbf4e2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#546c4a"/>
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                 BorderBrush="{TemplateBinding BorderBrush}"
+                 BorderThickness="{TemplateBinding BorderThickness}"
+                 CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid HorizontalAlignment="Center" Width="800">
+       
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock Text="Имя:" Style="{StaticResource CustomTextBlockStyle}"/>
+            <TextBox x:Name="NameTextBox" Style="{StaticResource CustomTextBoxStyle}"/>
+
+            <TextBlock Text="Email:" Style="{StaticResource CustomTextBlockStyle}"/>
+            <TextBox x:Name="EmailTextBox" Style="{StaticResource CustomTextBoxStyle}"/>
+
+            <TextBlock Text="Роль:" Style="{StaticResource CustomTextBlockStyle}"/>
+            <TextBox x:Name="RoleTextBox" Style="{StaticResource CustomTextBoxStyle}"/>
+
+
+            <Button Content="Сохранить" Click="SaveButton_Click" Style="{StaticResource CustomButtonStyle}"/>
+            <TextBlock x:Name="OrdersLabel" Visibility="Hidden" Margin="0,13,0,0" HorizontalAlignment="Center" Text="Заказы пользователя:" Style="{StaticResource CustomTextBlockStyle}"/>
+            <DataGrid Visibility="Hidden" x:Name="OrdersDataGrid"  AutoGenerateColumns="False"
+      IsReadOnly="True" SelectionMode="Single"
+      Margin="0,3,0,0" Style="{StaticResource CustomDataGridStyle}"  HeadersVisibility="Column" MouseDoubleClick="OrdersDataGrid_MouseDoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Ключ" Binding="{Binding Key}" />
+                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}" />
+                    <DataGridTextColumn Header="Стоимость" Binding="{Binding TotalAmount}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>
