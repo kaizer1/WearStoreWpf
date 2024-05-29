@@ -18,6 +18,7 @@
                 <Button Height="70" Content="Пользователи" Click="Button_Click" Style="{StaticResource CustomButtonStyle}"/>
                 <Button Height="70" Content="Товары" Click="ProdView" Style="{StaticResource CustomButtonStyle}"/>
                 <Button Height="70" Content="Заказы" Click="OrderView" Style="{StaticResource CustomButtonStyle}"/>
+                <Button Height="70" Content="Баннеры" Click="OrderViewBanners" Style="{StaticResource CustomButtonStyle}"/>
             </StackPanel>
 
             <!-- Основное содержимое -->

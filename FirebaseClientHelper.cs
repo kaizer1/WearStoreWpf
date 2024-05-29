@@ -37,9 +37,7 @@ namespace WearStoreWpf
         {
 
             //export GOOGLE_APPLICATION_CREDENTIALS = "path/to/your/keyfile.json";
-
             //GoogleCredential credential = GoogleCredential.FromFile("shopbase-b8fc9-firebase-adminsdk-fp736-94ba20aaef.json");
-
             //Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credential);
 
             
@@ -47,8 +45,11 @@ namespace WearStoreWpf
             string path = @"Q:\DownloadsMain\TelegramTemp\WearStoreWpf\WearStoreWpf\bin\Debug\shopbase-b8fc9-firebase-adminsdk-fp736-94ba20aaef.json";
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
 
+
             db = FirestoreDb.Create("shopbase-b8fc9"); // project 
 
+
+            
             //firebaseClient = new FirebaseClient(
                // FirebaseUrl,
                // new FirebaseOptions

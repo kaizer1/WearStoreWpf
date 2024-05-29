@@ -64,6 +64,11 @@ namespace WearStoreWpf
             MainFrame.Navigate(new OrdersViewPage());
 
         }
+
+        private void OrderViewBanners(object sender, RoutedEventArgs e)
+        {
+            // 
+        }
     }
 
    
