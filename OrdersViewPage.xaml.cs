@@ -38,6 +38,8 @@ namespace WearStoreWpf
             var users = await firebaseHelper.GetDataAsyncUsers();
             var orders = await firebaseHelper.GetDataAsyncOrders();
             
+
+            
             foreach(var sdf in users)
             {
                 Console.WriteLine(" my users keys = " + sdf.Key);
