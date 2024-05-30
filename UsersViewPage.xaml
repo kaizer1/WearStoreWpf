@@ -15,7 +15,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя пользователя"  Width="*" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Электронная почта"  Width="*" Binding="{Binding Email}" />
-                <DataGridTextColumn Header="Роль"  Width="*" Binding="{Binding Role}" />
+                <DataGridTextColumn Header="Номер телефона"  Width="*" Binding="{Binding Phone}" />
             </DataGrid.Columns>
         </DataGrid>
         <!--<Button Content="Добавить" HorizontalAlignment="Left" Height="25" Margin="10,5,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_NewUser" Style="{StaticResource CustomButtonStyle}"/>-->

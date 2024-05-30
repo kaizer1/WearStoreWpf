@@ -39,7 +39,9 @@ namespace WearStoreWpf
         }
         private async Task LoadUsersAsync()
         {
-            var users = await firebaseHelper.GetDataAsync<User>("users");
+            //var users = await firebaseHelper.GetDataAsync<User>("Users");
+            var users = await firebaseHelper.GetDataAsyncUsers();
+            Console.WriteLine(" and load users ! ");
             UsersDataGrid.ItemsSource = users;
         }
 
@@ -48,6 +50,7 @@ namespace WearStoreWpf
             if (UsersDataGrid.SelectedItem is User selectedUser)
             {
                 // Передайте selectedUser в конструктор UserEditPage
+               Console.WriteLine($"{selectedUser.Name} is selected");
                 
                 UserEditWindow taskWindow = new UserEditWindow(selectedUser);
                 taskWindow.ShowDialog();
@@ -84,8 +87,12 @@ namespace WearStoreWpf
 
         private async void Button_Click_Edit(object sender, RoutedEventArgs e)
         {
+
+            Console.WriteLine(" sdflksdf users in sdfjas dis selected");
             if (UsersDataGrid.SelectedItem is User selectedUser)
             {
+
+                Console.WriteLine(" sdflksdf users in sdfjas dis SEL selected " + selectedUser.Name);
                 var editWindow = new UserEditWindow(selectedUser);
                 editWindow.ShowDialog();
                 string closeReason = editWindow.CloseReason;

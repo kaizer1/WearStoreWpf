@@ -33,17 +33,18 @@ namespace WearStoreWpf
         private async void LoadProductsAsync()
         {
             productsList.Visibility = Visibility.Hidden;
-            var products = await firebaseHelper.GetDataAsync<Product>("products");
+            //var products = await firebaseHelper.GetDataAsync<Product>("Products");
+            var products = await firebaseHelper.GetDataAsyncProduct();
             progressBar.Visibility = Visibility.Visible;
             progressBar.Maximum = products.Count;
             progressBar.Value = 0;
-            foreach (var product in products)
-            {
-                progressBar.Value++;
-                BitmapImage image = await GetImageFromStorage(product.Key);
-                product.Image = image;
+            //foreach (var product in products)
+           // {
+                //progressBar.Value++;
+                //BitmapImage image = await GetImageFromStorage(product.ImageString); // was product.key ImageString
+                //product.Image = image;
                 
-            }
+            //}
             progressBar.Visibility = Visibility.Hidden;
 
             productsList.ItemsSource = products;

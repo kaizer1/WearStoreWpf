@@ -24,6 +24,9 @@ namespace WearStoreWpf
         public MainWindow()
         {
             InitializeComponent();
+            Console.WriteLine("start project work  ! ");
+          
+
             Icon = ConvertIconToImageSource(Properties.Resources.icon);
 
             LoadUsers(); // 
@@ -44,8 +47,9 @@ namespace WearStoreWpf
         private async void LoadUsers()
         {
             FirebaseClientHelper firebase = new FirebaseClientHelper();
-            var users = await firebase.GetDataAsync<User>("users");
-           
+            Console.WriteLine("Pre load users ! ");
+            //var users = await firebase.GetDataAsync<User>("Users"); // was users
+            var users = await firebase.GetDataAsyncUsers();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

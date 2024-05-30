@@ -18,7 +18,7 @@ namespace WearStoreWpf
 
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; } 
+        public string Phone { get; set; } 
     }
     public class Categories : IHasKey
     {
@@ -35,6 +35,8 @@ namespace WearStoreWpf
         public string Description { get; set; }
         public int Discount { get; set; }
         public double Price { get; set; }
+
+        public string ImageString { get; set; }
         public string Category { get; set; } // Категория продукта
         public object StockBySize { get; set; }  // Количество товаров по размерам
         [JsonIgnore]

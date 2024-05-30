@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,10 +33,24 @@ namespace WearStoreWpf
        
         private async Task LoadOrdersAsync()
         {
-            var users = await firebaseHelper.GetDataAsync<User>("users");
-            var orders = await firebaseHelper.GetDataAsync<Order>("orders");
-            foreach (var order in orders) { 
+            //var users = await firebaseHelper.GetDataAsync<User>("Users");
+            //var orders = await firebaseHelper.GetDataAsync<Order>("Orders");
+            var users = await firebaseHelper.GetDataAsyncUsers();
+            var orders = await firebaseHelper.GetDataAsyncOrders();
+            
+            foreach(var sdf in users)
+            {
+                Console.WriteLine(" my users keys = " + sdf.Key);
+            }
+            
+            foreach (var order in orders) {
+
+                Console.WriteLine(" my x.Key " + order.UserKey);
+
               var user = users.FirstOrDefault(x => x.Key == order.UserKey);
+                Console.WriteLine(" my user == " + user.Name);
+
+
                 order.UserName = user.Name;
             }
             OrdersDataGrid.ItemsSource = orders;

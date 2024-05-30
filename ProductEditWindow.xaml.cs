@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -257,7 +258,9 @@ namespace WearStoreWpf
             using (var memoryStream = new MemoryStream())
             {
                 // Загружаем файл из Firebase Storage в MemoryStream
-                await storage.DownloadObjectAsync(_bucketName, fileName + ".png", memoryStream);
+                Console.WriteLine("my filename = " + fileName);
+
+                await storage.DownloadObjectAsync(_bucketName, fileName, memoryStream);  // was filename + ".png"
                 memoryStream.Position = 0; // Перемещаем указатель потока в начало
 
                 // Создаем объект BitmapImage из MemoryStream

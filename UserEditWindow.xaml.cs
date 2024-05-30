@@ -55,11 +55,10 @@ namespace WearStoreWpf
             // Заполните поля интерфейса данными из currentUser
             NameTextBox.Text = currentUser.Name;
             EmailTextBox.Text = currentUser.Email;
-            RoleTextBox.Text = currentUser.Role;
-
-
+            RoleTextBox.Text = currentUser.Phone;
+            
             FirebaseClientHelper firebase = new FirebaseClientHelper();
-            var allorders = await firebase.GetDataAsync<Order>("orders");
+            var allorders = await firebase.GetDataAsync<Order>("Orders");
             var orders = allorders.Where(order => order.UserKey == currentUser.Key).ToList();
             OrdersDataGrid.ItemsSource = orders;
         }
@@ -82,7 +81,7 @@ namespace WearStoreWpf
                     {
                         Name = NameTextBox.Text,
                         Email = EmailTextBox.Text,
-                        Role = RoleTextBox.Text
+                        Phone = RoleTextBox.Text
                     };
                     await firebase.NewUser(user);
                     CloseReason = "Saved";
@@ -93,7 +92,7 @@ namespace WearStoreWpf
                 {
                     currentUser.Name = NameTextBox.Text;
                     currentUser.Email = EmailTextBox.Text;
-                    currentUser.Role = RoleTextBox.Text;
+                    currentUser.Phone = RoleTextBox.Text;
                     await firebase.EditUser(currentUser);
                     CloseReason = "Saved";
                     this.Close();

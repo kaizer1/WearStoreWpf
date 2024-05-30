@@ -63,7 +63,7 @@
             <TextBlock Text="Email:" Style="{StaticResource CustomTextBlockStyle}"/>
             <TextBox x:Name="EmailTextBox" Style="{StaticResource CustomTextBoxStyle}"/>
 
-            <TextBlock Text="Роль:" Style="{StaticResource CustomTextBlockStyle}"/>
+            <TextBlock Text="Телефон:" Style="{StaticResource CustomTextBlockStyle}"/>
             <TextBox x:Name="RoleTextBox" Style="{StaticResource CustomTextBoxStyle}"/>
 
 
