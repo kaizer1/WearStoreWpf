@@ -1,0 +1,19 @@
+﻿<Page x:Class="WearStoreWpf.BannersView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WearStoreWpf"
+        mc:Ignorable="d"
+        Title="BannersView" Height="450" Width="800">
+    <Grid>
+        <ListBox x:Name="BannersDataList" Background="#fbf4e2" Margin="0,40,0,0" ItemTemplate="{StaticResource productTemplate}" ItemContainerStyle="{StaticResource ProductListBoxItemStyle}"
+       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </Grid>
+</Page>

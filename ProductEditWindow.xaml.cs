@@ -6,17 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Path = System.IO.Path;
 
 namespace WearStoreWpf
 {
@@ -28,7 +29,8 @@ namespace WearStoreWpf
     {
 
         public string CloseReason { get; private set; }
-        string imagePath ;
+        string imagePath;
+        string imagePathBase;
         string newProductKey = Guid.NewGuid().ToString();
         public Dictionary<string, int> stockBySize { get; set; } = new Dictionary<string, int>();
         Product currentProduct;
@@ -133,18 +135,37 @@ namespace WearStoreWpf
         private async void UploadImageButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
+
             {
                 Filter = "Изображения (*.png;)|*.png"
             };
             if (openFileDialog.ShowDialog() == true)
             {
+
+     
+
+                //Console.WriteLine(" my base64 image == " + base64ImageRepresentation);
+
                 System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(openFileDialog.FileName);
                 System.Windows.Media.Imaging.BitmapSource bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(
                     bitmap.GetHbitmap(),
                     IntPtr.Zero,
                     Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
+                    BitmapSizeOptions.FromWidthAndHeight(bitmap.Width/4, bitmap.Height/4));
+
+
                 pictureBox.Source = bitmapSource;
+
+                System.Drawing.Bitmap bitmapResize = new System.Drawing.Bitmap(bitmap, bitmap.Width/4, bitmap.Height/4);
+
+                System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                bitmapResize.Save(ms, ImageFormat.Jpeg);
+                byte[] byteImage = ms.ToArray();
+                imagePathBase = Convert.ToBase64String(byteImage); // Get Base64
+
+
+
+                //System.Drawing.Bitmap newBit = new System.Drawing.Bitmap(bitmap, new Size(bitmap.Width / 4, bitmap.Height / 4));
                 imagePath = openFileDialog.FileName;
             }
 
@@ -154,14 +175,24 @@ namespace WearStoreWpf
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+
+
+            string base64Represe = "";
+
+            
             if (imagePath != null)
             {
                 string projectId = "shopbase-b8fc9";
                 string bucketName = "shopbase-b8fc9.appspot.com";
                 string localFilePath = imagePath;
-                string remoteFileName = newProductKey + Path.GetExtension(imagePath);
+                //string remoteFileName = newProductKey + Path.GetExtension(imagePath);
                 FirebaseStorageUploader uploader = new FirebaseStorageUploader(projectId, bucketName);
-                await uploader.UploadFileAsync(localFilePath, remoteFileName, Path.GetExtension(imagePath).Replace(".", ""));
+                //await uploader.UploadFileAsync(localFilePath, remoteFileName, Path.GetExtension(imagePath).Replace(".", ""));
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(imagePath);
+                base64Represe = Convert.ToBase64String(imageArray);
+
             }
 
             FirebaseClientHelper firebase = new FirebaseClientHelper();
@@ -182,6 +213,8 @@ namespace WearStoreWpf
                         Price = Convert.ToDouble(priceTextBox.Text),
                         Discount = discount,
                         Category = CategoryComboBox.SelectedValue.ToString(),
+                        CategoryName = CategoryComboBox.SelectedValue.ToString(),
+                        ImageString = imagePathBase,
                         StockBySize = stockBySize
 
                     };
@@ -200,6 +233,7 @@ namespace WearStoreWpf
                     currentProduct.Description = descriptionTextBox.Text;
                     currentProduct.Price = Convert.ToDouble(priceTextBox.Text);
                     currentProduct.Category = CategoryComboBox.SelectedValue.ToString();
+                    currentProduct.CategoryName = CategoryComboBox.SelectedIndex.ToString();
                     currentProduct.Discount = discount;
                     currentProduct.StockBySize = stockBySize;
                     await firebase.EditProduct(currentProduct);
@@ -255,13 +289,19 @@ namespace WearStoreWpf
             GoogleCredential credential = GoogleCredential.FromFile("shopbase-b8fc9-firebase-adminsdk-fp736-94ba20aaef.json");
             StorageClient storage = StorageClient.Create(credential);
 
+            //FirebaseStorage
+
             using (var memoryStream = new MemoryStream())
             {
                 // Загружаем файл из Firebase Storage в MemoryStream
                 Console.WriteLine("my filename = " + fileName);
 
-                await storage.DownloadObjectAsync(_bucketName, fileName, memoryStream);  // was filename + ".png"
+                await storage.DownloadObjectAsync(_bucketName,  fileName, memoryStream);  // was filename + ".png"
                 memoryStream.Position = 0; // Перемещаем указатель потока в начало
+
+
+                // gs://shopbase-b8fc9.appspot.com/Banners
+
 
                 // Создаем объект BitmapImage из MemoryStream
                 BitmapImage bitmapImage = new BitmapImage();

@@ -27,6 +27,16 @@ namespace WearStoreWpf
         public string Name { get; set; }
        
     }
+
+
+    public class Banner : IHasKey
+    {
+        [JsonIgnore]
+        public string Key { get; set; }
+        public string ImageSrc { get; set; }
+        public bool Active { get; set; }
+        public BitmapImage Image { get; set; } = null;
+    }
     public class Product : IHasKey
     {
         [JsonIgnore]
@@ -38,6 +48,8 @@ namespace WearStoreWpf
 
         public string ImageString { get; set; }
         public string Category { get; set; } // Категория продукта
+        
+        public string CategoryName { get; set; }
         public object StockBySize { get; set; }  // Количество товаров по размерам
         [JsonIgnore]
         public BitmapImage Image { get; set; } = null;

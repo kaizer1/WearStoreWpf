@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Windows.Media.Imaging;
 using Google.Cloud.Firestore.V1;
 using Google.Apis.Util;
+using System.Xml.Linq;
 //using System.Windows.Documents;
 
 
@@ -98,7 +99,72 @@ namespace WearStoreWpf
         }
 
 
-        public async Task<List<Order>> GetDataAsyncOrders()
+
+
+        public async Task<List<Banner>> GetDataAsyncBanners()
+        {
+            List<Banner> bannersReturn = new List<Banner>();
+            CollectionReference userRef = db.Collection("Banners");
+
+            var items = await userRef.GetSnapshotAsync();
+
+            foreach (DocumentSnapshot item in items.Documents)
+            {
+                Banner testBanner = new Banner();
+                Dictionary<string, object> documentDictionary = item.ToDictionary();
+
+                testBanner.Key = item.Id;
+
+                foreach (var catrr in documentDictionary)
+                {
+                    if(catrr.Key == "imageUrl")
+                    {
+                        testBanner.ImageSrc = catrr.Value.ToString();
+                    }
+
+                    if(catrr.Key == "active")
+                    {
+                        testBanner.Active = Convert.ToBoolean(catrr.Value);
+                    }
+                }
+                bannersReturn.Add(testBanner);
+            }
+
+
+           return bannersReturn;
+
+        }
+
+        public async Task<List<Categories>> GetDataAsyncCategories()
+        {
+            List<Categories> catergots = new List<Categories>();
+            CollectionReference userRef = db.Collection("Categories");
+
+            var items = await userRef.GetSnapshotAsync();
+
+            foreach (DocumentSnapshot item in items.Documents)
+            {
+                Categories testCategor = new Categories();
+                Dictionary<string, object> documentDictionary = item.ToDictionary();
+
+                testCategor.Key = item.Id;
+
+                foreach(var catrr in documentDictionary)
+                {
+                      if(catrr.Key == "Name")
+                    {
+                        testCategor.Name = catrr.Value.ToString();
+                    }
+                }
+
+                catergots.Add(testCategor);
+            }
+
+
+            return catergots;
+        }
+
+            public async Task<List<Order>> GetDataAsyncOrders()
         {
 
             List<Order> orders = new List<Order>();
@@ -285,13 +351,18 @@ namespace WearStoreWpf
                             }
 
 
-                            if(key.Key == "Image")
-                            {
-                                testUser.ImageString = key.Value.ToString();
-                            }
+                            //if(key.Key == "Image")
+                            //{
+                            //    testUser.ImageString = key.Value.ToString();
+                            //}
                          }
 
 
+                    }
+
+                    if(person.Key == "ImagePath")
+                    {
+                        testUser.ImageString = person.Value.ToString(); 
                     }
 
 
@@ -575,18 +646,72 @@ namespace WearStoreWpf
         {
             var key = product.Key;
 
+            Console.WriteLine(" my key in add Category = " + product.Category);
 
             //var key = Guid.NewGuid().ToString();
             CollectionReference userRef = db.Collection("Products");
 
-            await userRef.Document(key).SetAsync(product);
-            //await firebaseClient.Child("products").Child(key).PutAsync(product);
+
+            Dictionary<string, object> firstMap = new Dictionary<string, object>()
+            {
+                { "Id", 1},
+                { "IsFeatured", true},
+                { "Name", product.Name},
+                { "ProductsCount", 0},
+            };
+
+
+            Dictionary<string, object> productAdd = new Dictionary<string, object>
+        {
+    { "Brand", firstMap },
+    { "CategoryId", 6 },
+    { "Description", product.Description },
+    { "Price", product.Price },
+    { "SalePrice", product.Discount},
+    { "Stock", product.StockBySize },
+    { "ImagePath", product.ImageString}
+
+
+        };
+
+            await userRef.Document().SetAsync(productAdd);
         }
-        public async Task EditProduct(Product product)
+
+
+
+  public async Task EditProduct(Product product)
         {
             CollectionReference userRef = db.Collection("Products");
 
-            await userRef.Document(product.Key).SetAsync(product);
+
+            Dictionary<string, object> firstMap = new Dictionary<string, object>()
+            {
+                { "Id", 1},
+                { "IsFeatured", true},
+                { "Name", product.Name},
+                { "ProductsCount", 0},
+            };
+
+
+            Dictionary<string, object> productAdd = new Dictionary<string, object>
+        {
+    { "Brand", firstMap },
+    { "CategoryId", 6 },
+    { "Description", product.Description },
+    { "Price", product.Price },
+    { "SalePrice", product.Discount},
+    { "Stock", product.StockBySize },
+    { "ImagePath", product.ImageString}
+
+
+        };
+
+            await userRef.Document().SetAsync(productAdd);
+
+
+
+
+            //await userRef.Document(product.Key).SetAsync(product);
             //await firebaseClient.Child("products").Child(product.Key).PutAsync(product);
         }
         public async Task DeleteProduct(Product product)
@@ -691,7 +816,7 @@ namespace WearStoreWpf
         }
         public async Task<List<string>> GetCategory()
         {
-            var categories = await GetDataAsync<Categories>("Categories");
+            var categories = await GetDataAsyncCategories(); // <Categories>("Categories");
             List<String> list = new List<string>();
 
             foreach (var el in categories)

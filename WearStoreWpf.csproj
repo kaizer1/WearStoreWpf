@@ -38,7 +38,7 @@
     <Reference Include="Firebase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\FirebaseDatabase.net.4.2.0\lib\netstandard2.0\Firebase.dll</HintPath>
     </Reference>
- <!--    <Reference Include="Firebase.Storage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <!--    <Reference Include="Firebase.Storage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\FirebaseStorage.net.1.0.3\lib\netstandard1.1\Firebase.Storage.dll</HintPath> -->
     <!-- </Reference> -->
     <Reference Include="FirebaseAdmin, Version=2.4.1.0, Culture=neutral, PublicKeyToken=97c8d00c348326ed, processorArchitecture=MSIL">
@@ -59,10 +59,10 @@
     <Reference Include="Google.Apis.Core, Version=1.67.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>packages\Google.Apis.Core.1.67.0\lib\net462\Google.Apis.Core.dll</HintPath>
     </Reference>
-<Reference Include="Google.Apis.Storage.v1, Version=1.67.0.3365, Culture=neutral, PublicKeyToken=4b01Fa6e34db77ab, processorArchitecture=MSIL">
+    <Reference Include="Google.Apis.Storage.v1, Version=1.67.0.3365, Culture=neutral, PublicKeyToken=4b01Fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>packages\Google.Apis.Storage.V1.1.67.0.3365\lib\Net462\Google.Apis.Storage.v1.dll</HintPath>
     </Reference>
-<Reference Include="Google.Cloud.Storage.v1, Version=4.10.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
+    <Reference Include="Google.Cloud.Storage.v1, Version=4.10.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
       <HintPath>packages\google.Cloud.Storage.v1.4.10.0\lib\Net462\Google.Cloud.Storage.v1.dll</HintPath>
     </Reference>
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
@@ -252,13 +252,16 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-        <PackageReference Include="Google.Cloud.Firestore" Version="1.1.0-beta01" />
+    <PackageReference Include="Google.Cloud.Firestore" Version="1.1.0-beta01" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BannersView.xaml.cs">
+      <DependentUpon>BannersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomMessageBox.xaml.cs">
       <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
@@ -281,6 +284,10 @@
     <Compile Include="UsersViewPage.xaml.cs">
       <DependentUpon>UsersViewPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="BannersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

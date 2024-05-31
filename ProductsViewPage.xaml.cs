@@ -1,6 +1,8 @@
 ﻿//using Google.Cloud.Storage.V1;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -38,13 +41,23 @@ namespace WearStoreWpf
             progressBar.Visibility = Visibility.Visible;
             progressBar.Maximum = products.Count;
             progressBar.Value = 0;
-            //foreach (var product in products)
-           // {
+            foreach (var product in products)
+            {
                 //progressBar.Value++;
                 //BitmapImage image = await GetImageFromStorage(product.ImageString); // was product.key ImageString
                 //product.Image = image;
-                
-            //}
+
+                if (product.ImageString != null)
+                {
+
+                    Bitmap imagee = Base64StringToBitmap(product.ImageString);
+                    BitmapImage finalA = ConvertBIM(imagee);
+
+                    product.Image = finalA;
+                }
+
+
+            }
             progressBar.Visibility = Visibility.Hidden;
 
             productsList.ItemsSource = products;
@@ -59,6 +72,82 @@ namespace WearStoreWpf
             
             return imageStream;
         }
+
+
+
+
+        private BitmapImage ConvertBIM(Bitmap bmp)
+        {
+
+            var bitmapData = bmp.LockBits(
+              new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+              System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
+
+            var bitmapSource = BitmapSource.Create(
+               bitmapData.Width, bitmapData.Height, 96, 96, PixelFormats.Bgr24, null,
+               bitmapData.Scan0, bitmapData.Stride * bitmapData.Height, bitmapData.Stride);
+
+            bmp.UnlockBits(bitmapData);
+            return bitmapSource as BitmapImage;
+        }
+
+        private BitmapImage Bitmap2BitmapImage(Bitmap bitmap)
+        {
+            BitmapSource i = Imaging.CreateBitmapSourceFromHBitmap(
+                           bitmap.GetHbitmap(),
+                           IntPtr.Zero,
+                           Int32Rect.Empty,
+                           BitmapSizeOptions.FromEmptyOptions());
+            return (BitmapImage)i;
+        }
+
+
+        //private BitmapImage Bitmap2BitmapImage(Bitmap bitmap)
+        //{
+        //    IntPtr hBitmap = bitmap.GetHbitmap();
+        //    BitmapImage retval;
+
+        //    try
+        //    {
+        //        retval = (BitmapImage)Imaging.CreateBitmapSourceFromHBitmap(
+        //                     hBitmap,
+        //                     IntPtr.Zero,
+        //                     Int32Rect.Empty,
+        //                     BitmapSizeOptions.FromEmptyOptions());
+        //    }
+        //    finally
+        //    {
+        //        //DeleteObject(hBitmap);
+        //    }
+
+        //    return retval;
+        //}
+
+
+        public Bitmap Base64StringToBitmap( string
+                                       base64String)
+        {
+            Bitmap bmpReturn = null;
+
+
+            byte[] byteBuffer = Convert.FromBase64String(base64String);
+            MemoryStream memoryStream = new MemoryStream(byteBuffer);
+
+
+            memoryStream.Position = 0;
+
+
+            bmpReturn = (Bitmap)Bitmap.FromStream(memoryStream);
+
+
+            memoryStream.Close();
+            memoryStream = null;
+            byteBuffer = null;
+
+
+            return bmpReturn;
+        }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
