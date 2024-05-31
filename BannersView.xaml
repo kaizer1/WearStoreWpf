@@ -6,13 +6,28 @@
         xmlns:local="clr-namespace:WearStoreWpf"
         mc:Ignorable="d"
         Title="BannersView" Height="450" Width="800">
+
+    
     <Grid>
-        <ListBox x:Name="BannersDataList" Background="#fbf4e2" Margin="0,40,0,0" ItemTemplate="{StaticResource productTemplate}" ItemContainerStyle="{StaticResource ProductListBoxItemStyle}"
-       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+      
+        
+        
+        
+        <ListBox Name="BannersDataList" Background="#fbf4e2" Margin="0,40,0,0" ItemTemplate="{StaticResource productTemplate}"  ItemContainerStyle="{StaticResource ProductListBoxItemStyle}"
+       ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Models}" >
+            <!--<ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsVisualisationModel}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>-->
+
+            
             <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
+                <ItemsPanelTemplate>  
                     <WrapPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
+
             </ListBox.ItemsPanel>
         </ListBox>
         <Button Content="Загрузка изображения" HorizontalAlignment="Left" Height="25" Margin="182,5,0,0" VerticalAlignment="Top" Width="200" Click="Button_Click_Load_Image" Style="{StaticResource CustomButtonStyle}"/>
