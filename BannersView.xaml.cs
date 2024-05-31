@@ -60,5 +60,11 @@ namespace WearStoreWpf
         }
 
 
+        
+        private async void Button_Click_Load_Image(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

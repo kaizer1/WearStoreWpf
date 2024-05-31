@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
 namespace WearStoreWpf
 {
@@ -36,6 +37,7 @@ namespace WearStoreWpf
         public string ImageSrc { get; set; }
         public bool Active { get; set; }
         public BitmapImage Image { get; set; } = null;
+        public ToggleButton ToggleButton { get; set; } = null;
     }
     public class Product : IHasKey
     {
