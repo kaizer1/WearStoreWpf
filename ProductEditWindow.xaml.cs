@@ -270,6 +270,8 @@ namespace WearStoreWpf
             _canExecute = canExecute;
         }
 
+
+        // ths 
         public bool CanExecute(object parameter) => _canExecute?.Invoke(parameter) ?? true;
 
         public void Execute(object parameter) => _execute(parameter);
